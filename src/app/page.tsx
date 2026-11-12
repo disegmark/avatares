@@ -1,31 +1,22 @@
-import { Hero } from "@/components/hero/Hero";
-import { WhatWeDo } from "@/components/sections/WhatWeDo";
-import { Evolution } from "@/components/sections/Evolution";
-import { AgentsSection } from "@/components/sections/AgentsSection";
-import { AutomationSection } from "@/components/sections/AutomationSection";
-import { IntegrationsSection } from "@/components/sections/IntegrationsSection";
-import { KnowledgeSection } from "@/components/sections/KnowledgeSection";
-import { SolutionsSection } from "@/components/sections/SolutionsSection";
-import { IndustriesSection } from "@/components/sections/IndustriesSection";
-import { WorkflowSection } from "@/components/sections/WorkflowSection";
-import { OutcomesSection } from "@/components/sections/OutcomesSection";
-import { SolutionFinder } from "@/components/sections/SolutionFinder";
+import { StudioApp } from "@/components/studio/StudioApp";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <>
-      <Hero />
-      <WhatWeDo />
-      <Evolution />
-      <AgentsSection />
-      <AutomationSection />
-      <IntegrationsSection />
-      <KnowledgeSection />
-      <SolutionsSection />
-      <SolutionFinder />
-      <IndustriesSection />
-      <OutcomesSection />
-      <WorkflowSection />
-    </>
+    <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-8 sm:py-14">
+      <header className="mb-10">
+        <h1 className="font-display sign-text-cyan text-4xl font-semibold tracking-tight sm:text-5xl">Avatares</h1>
+        <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
+          Avatares hiperrealistas que hablan, voces naturales o clonadas y videos largos escena por escena — todo en un
+          solo lugar.
+        </p>
+      </header>
+
+      <StudioApp />
+
+      <p className="mt-12 text-center text-xs leading-relaxed text-muted">
+        Usa solo rostros y voces propios o con consentimiento expreso. Los contenidos generados con iA deben
+        identificarse como tales al publicarse.
+      </p>
+    </main>
   );
 }

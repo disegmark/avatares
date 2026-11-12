@@ -38,7 +38,7 @@ yarn-error.log*
 .vercel
 
 # Claude Code agent tooling — installed skills, local config, workspace files.
-# Not part of the website project.
+# Not part of the app.
 /.agents/
 /.claude/
 skills-lock.json

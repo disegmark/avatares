@@ -1,46 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Avatares — Estudio creativo iA
 
-## Getting Started
+App web (Next.js 16) para crear contenido con inteligencia artificial:
 
-First, run the development server:
+- **Avatares** (HeyGen): avatares hiperrealistas de catálogo o creados desde una sola foto. El guion se divide en escenas (línea en blanco, hasta 20) para videos largos, con la voz de ElevenLabs sincronizada en los labios.
+- **Voces** (ElevenLabs): texto a voz en 25+ idiomas con control de estabilidad/estilo, y clonación instantánea de voz.
+- **Video largo** (fal.ai → PixVerse, Kling, Veo 3): guion por escenas generado con Claude a partir de una idea, continuidad encadenando el último fotograma de cada escena con la siguiente, vista previa continua y unión final en un solo MP4.
+
+La app no ejecuta modelos propios: orquesta las APIs de esos proveedores con tus claves.
+
+## Puesta en marcha
 
 ```bash
+npm install
+cp .env.local.example .env.local   # completa las claves
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre http://localhost:3000 e ingresa la clave definida en `STUDIO_ACCESS_KEY`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Configuración
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Para qué |
+| --- | --- |
+| `STUDIO_ACCESS_KEY` | Obligatoria. Clave de acceso; sin ella la app queda bloqueada. |
+| `HEYGEN_API_KEY` | Pestaña Avatares. |
+| `ELEVENLABS_API_KEY` | Pestaña Voces y voz de los avatares (si falta, se usan voces de HeyGen). |
+| `FAL_KEY` | Pestaña Video largo. |
+| `ANTHROPIC_API_KEY` | Guion automático por escenas (opcional). |
 
-## Estudio creativo iA (`/studio`)
+Cada pestaña se activa solo si su proveedor está configurado. Los ids de los modelos de video están en `src/lib/studio/config.ts`; actualízalos cuando fal publique versiones nuevas.
 
-Estudio privado para crear contenido con IA:
+## Despliegue
 
-- **Avatares** (HeyGen): avatares hiperrealistas de stock o creados desde una sola foto. El guion se divide en escenas (línea en blanco) para videos largos, con la voz de ElevenLabs sincronizada en los labios.
-- **Voces** (ElevenLabs): texto a voz en 25+ idiomas con control de estabilidad/estilo y clonación instantánea de voz.
-- **Video largo** (fal.ai → PixVerse, Kling, Veo 3): un guion por escenas (generado con Claude a partir de una idea), continuidad encadenando el último fotograma de cada escena con la siguiente, vista previa continua y unión final en un solo MP4.
+Funciona en cualquier hosting de Next.js (p. ej. Vercel). Los videos de avatar con voz de ElevenLabs preparan el audio de cada escena antes de enviarlo a HeyGen, por eso esa ruta usa `maxDuration = 300`: el plan del hosting debe permitir funciones de hasta 5 minutos.
 
-Configuración (`.env.local`, ver `.env.local.example`): `STUDIO_ACCESS_KEY` (obligatoria — sin ella el estudio queda bloqueado), `HEYGEN_API_KEY`, `ELEVENLABS_API_KEY`, `FAL_KEY` y `ANTHROPIC_API_KEY` (guion automático). Cada pestaña se activa solo si su proveedor está configurado. Los ids de los modelos de video están en `src/lib/studio/config.ts`.
+## Estructura
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/app/page.tsx` — la app (pestañas Avatares, Voces, Video largo).
+- `src/components/studio/` — interfaz.
+- `src/app/api/studio/` — rutas del servidor que llaman a los proveedores.
+- `src/lib/studio/` — clientes de HeyGen, ElevenLabs y fal.ai, configuración y control de acceso.
